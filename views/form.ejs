@@ -1,0 +1,76 @@
+<div class="container">
+  <h1>Create a Transport</h1>
+  <form action="/create" method="POST">
+    <!-- Name Input -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required />
+   
+    <!-- Mobility Dropdown -->
+    <label for="mobility">Mobility Type:</label>
+    <select id="mobility" name="mobility">
+      <option value="own chair">Own Chair</option>
+      <option value="str">Stretcher</option>
+      <option value="walker">Walker</option>
+      <option value="none">None</option>
+    </select>
+
+    <!-- Toggles with Hidden Inputs -->
+    <div class="toggle-container">
+      <span class="label">Consent Gained:</span>
+      <div class="toggle-btn" id="consentToggle">
+        <div class="option yes active" onclick="toggle('consentToggle', 'yes')">Y</div>
+        <div class="option no" onclick="toggle('consentToggle', 'no')">N</div>
+      </div>
+      <input type="hidden" id="consentToggleInput" name="consent" value="yes" />
+    </div>
+
+    <div class="toggle-container">
+      <span class="label">DNAR:</span>
+      <div class="toggle-btn" id="dnarToggle">
+        <div class="option yes active" onclick="toggle('dnarToggle', 'yes')">Y</div>
+        <div class="option no" onclick="toggle('dnarToggle', 'no')">N</div>
+      </div>
+      <input type="hidden" id="dnarToggleInput" name="dnar" value="yes" />
+    </div>
+
+    <div class="toggle-container">
+      <span class="label">Respect Form:</span>
+      <div class="toggle-btn" id="respectToggle">
+        <div class="option yes active" onclick="toggle('respectToggle', 'yes')">Y</div>
+        <div class="option no" onclick="toggle('respectToggle', 'no')">N</div>
+      </div>
+      <input type="hidden" id="respectToggleInput" name="respectForm" value="yes" />
+    </div>
+
+    <div class="toggle-container">
+      <span class="label">Bariatric:</span>
+      <div class="toggle-btn" id="bariatricToggle">
+        <div class="option yes active" onclick="toggle('bariatricToggle', 'yes')">Y</div>
+        <div class="option no" onclick="toggle('bariatricToggle', 'no')">N</div>
+      </div>
+      <input type="hidden" id="bariatricToggleInput" name="bariatric" value="yes" />
+    </div>
+
+    <!-- Pickup and Dropoff Inputs -->
+    <label for="pickup">Pick-up Address:</label>
+    <input type="text" id="pickup" name="pickup" required />
+
+    <label for="pickupMileage">Pick-up Mileage:</label>
+<input type="number" id="pickupMileage" name="pickupMileage" required oninput="calculateMileage()" />
+
+    <label for="dropoff">Drop-off Address:</label>
+    <input type="text" id="dropoff" name="dropoff" required />
+
+    <label for="dropoffMileage">Drop-off Mileage:</label>
+    <input type="number" id="dropoffMileage" name="dropoffMileage" required oninput="calculateMileage()" />
+    
+
+    <label for="totalMileage">Total Mileage:</label>
+    <input type="number" id="totalMileage" name="totalMileage" readonly />
+    
+
+    <button type="submit">Create Transport</button>
+    
+  </form>
+</div>
+<script src="/js/script.js"></script>
