@@ -17,6 +17,7 @@ if (!process.env.MONGO_URI) {
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
+  console.log('Mongo URI:', process.env.MONGO_URI); // Debugging
 
 // Middleware
 app.set('view engine', 'ejs');
