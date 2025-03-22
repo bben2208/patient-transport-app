@@ -1,5 +1,6 @@
 require('dotenv').config();
 console.log('Mongo URI:', process.env.MONGO_URI); // Debugging
+console.log('🔎 Mongo URI:', process.env.MONGO_URI || 'Not Found');
 
 const express = require('express');
 const mongoose = require('mongoose');
