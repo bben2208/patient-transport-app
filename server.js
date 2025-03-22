@@ -9,25 +9,23 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-    .then(() => console.log("✅ Connected to MongoDB"))
-    .catch((err) => console.error("❌ MongoDB connection error:", err));
-  
+if (!process.env.MONGO_URI) {
+  console.error("❌ MONGO_URI is not defined. Check your .env file.");
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
+
 // Middleware
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.set('layout', 'layouts/layout'); // Correct path for layout.ejs
-app.use(express.urlencoded({ extended: true }));
-
-
+app.set('layout', 'layouts/layout'); // Ensure you have views/layouts/layout.ejs
 app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
 
 // Routes
 const transportRoutes = require('./routes/transportroutes');
