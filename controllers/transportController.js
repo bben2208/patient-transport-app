@@ -54,6 +54,8 @@ exports.createTransport = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating transport');
+    console.error("Error creating transport:", err.message);
+
   }
 };
 
