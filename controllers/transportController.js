@@ -19,43 +19,19 @@ exports.getCreateForm = (req, res) => {
 // Create a new transport
 exports.createTransport = async (req, res) => {
   try {
-    const {
-      name,
-      mobility,
-      consent,
-      dnar,
-      respectForm,
-      bariatric,
-      pickup,
-      dropoff,
-      pickupMileage, // ✅ Fixed Typo (Previously pickupMilage)
-      dropoffMileage,
-    } = req.body;
+    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
     // Calculate Total Mileage
-    const totalMileage = Math.abs(dropoffMileage - pickupMileage);
+    const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
 
-    // Create Transport Document
     await Transport.create({
-      name,
-      mobility,
-      consent,
-      dnar,
-      respectForm,
-      bariatric,
-      pickup,
-      dropoff,
-      pickupMileage,
-      dropoffMileage,
-      totalMileage,
+      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage,
     });
 
     res.redirect('/');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating transport');
-    console.error("Error creating transport:", err.message);
-
   }
 };
 
@@ -76,34 +52,13 @@ exports.getEditForm = async (req, res) => {
 // Update transport
 exports.updateTransport = async (req, res) => {
   try {
-    const {
-      name,
-      mobility,
-      consent,
-      dnar,
-      respectForm,
-      bariatric,
-      pickup,
-      dropoff,
-      pickupMileage,
-      dropoffMileage,
-    } = req.body;
+    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
     // Calculate Total Mileage
-    const totalMileage = Math.abs(dropoffMileage - pickupMileage);
+    const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
 
     await Transport.findByIdAndUpdate(req.params.id, {
-      name,
-      mobility,
-      consent,
-      dnar,
-      respectForm,
-      bariatric,
-      pickup,
-      dropoff,
-      pickupMileage,
-      dropoffMileage,
-      totalMileage,
+      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage,
     });
 
     res.redirect('/');
