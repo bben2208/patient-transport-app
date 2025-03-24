@@ -9,8 +9,8 @@ const transportSchema = new mongoose.Schema({
   bariatric: { type: String, required: true },
   pickup: { type: String, required: true },
   dropoff: { type: String, required: true },
-  pickupMileage: { type: Number, required: true },
-  dropoffMileage: { type: Number, required: true },
+  pickupMileage: { type: Number, required: true }, // ✅ Fixed
+  dropoffMileage: { type: Number, required: true }, // ✅ Fixed
   totalMileage: { type: Number, required: true }
 });
 

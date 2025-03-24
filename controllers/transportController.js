@@ -1,17 +1,17 @@
-const Transport = require('../models/transport');
+const Transport = require('../models/Transport');
 
-// Show all transports
+// Get all transports
 exports.getAllTransports = async (req, res) => {
   try {
-    const transports = await Transport.find({});
+    const transports = await Transport.find();
     res.render('index', { transports });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching transports');
+    res.status(500).send('Error retrieving transports');
   }
 };
 
-// Show create form
+// Get create form
 exports.getCreateForm = (req, res) => {
   res.render('form', { transport: null });
 };
@@ -21,17 +21,14 @@ exports.createTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
-    // Ensure fields are numbers
+    // Validate input and calculate totalMileage
     const validPickupMileage = Number(pickupMileage);
     const validDropoffMileage = Number(dropoffMileage);
 
     if (isNaN(validPickupMileage) || isNaN(validDropoffMileage)) {
       return res.status(400).send('Pickup and Dropoff Mileage must be valid numbers');
-      console.log('Request Body:', req.body);
-
     }
 
-    // Calculate Total Mileage
     const totalMileage = Math.abs(validDropoffMileage - validPickupMileage);
 
     const transport = new Transport({
@@ -53,7 +50,6 @@ exports.createTransport = async (req, res) => {
   } catch (err) {
     console.error(err);
 
-    // Check if it's a validation error
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map(error => error.message);
       return res.status(400).send(`Validation Error: ${errors.join(', ')}`);
@@ -63,17 +59,15 @@ exports.createTransport = async (req, res) => {
   }
 };
 
-// Show edit form
+// Get edit form
 exports.getEditForm = async (req, res) => {
   try {
     const transport = await Transport.findById(req.params.id);
-    if (!transport) {
-      return res.status(404).send('Transport not found');
-    }
+    if (!transport) return res.status(404).send('Transport not found');
     res.render('form', { transport });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error fetching transport');
+    res.status(500).send('Error loading edit form');
   }
 };
 
@@ -82,12 +76,17 @@ exports.updateTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
-    // Calculate Total Mileage
-    const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
+    const validPickupMileage = Number(pickupMileage);
+    const validDropoffMileage = Number(dropoffMileage);
+    const totalMileage = Math.abs(validDropoffMileage - validPickupMileage);
 
-    await Transport.findByIdAndUpdate(req.params.id, {
-      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage,
-    });
+    const updatedTransport = await Transport.findByIdAndUpdate(
+      req.params.id,
+      { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage: validPickupMileage, dropoffMileage: validDropoffMileage, totalMileage },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedTransport) return res.status(404).send('Transport not found');
 
     res.redirect('/');
   } catch (err) {
@@ -99,7 +98,9 @@ exports.updateTransport = async (req, res) => {
 // Delete transport
 exports.deleteTransport = async (req, res) => {
   try {
-    await Transport.findByIdAndDelete(req.params.id);
+    const deletedTransport = await Transport.findByIdAndDelete(req.params.id);
+    if (!deletedTransport) return res.status(404).send('Transport not found');
+
     res.redirect('/');
   } catch (err) {
     console.error(err);
