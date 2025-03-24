@@ -39,3 +39,6 @@ app.use('/', transportRoutes);
 // Start Server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('PORT:', process.env.PORT || 3001);
+
