@@ -14,10 +14,10 @@
 
     <label for="pickupMileage">Pick-up Mileage:</label>
     <input type="number" id="pickupMileage" name="pickupMileage" value="<%= transport ? transport.pickupMileage : '' %>" required />
-
+    
     <label for="dropoffMileage">Drop-off Mileage:</label>
     <input type="number" id="dropoffMileage" name="dropoffMileage" value="<%= transport ? transport.dropoffMileage : '' %>" required />
-
+    
     <button type="submit"><%= transport ? 'Update Transport' : 'Create Transport' %></button>
   </form>
 </div>
