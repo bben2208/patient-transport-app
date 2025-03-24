@@ -1,6 +1,4 @@
 require('dotenv').config();
-console.log('Mongo URI:', process.env.MONGO_URI); // Debugging
-console.log('🔎 Mongo URI:', process.env.MONGO_URI || 'Not Found');
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -9,21 +7,26 @@ const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 
+// Debugging: Check if MONGO_URI is loaded
+console.log('🔎 Mongo URI:', process.env.MONGO_URI || 'Not Found');
+
 // Database Connection
 if (!process.env.MONGO_URI) {
   console.error("❌ MONGO_URI is not defined. Check your .env file.");
   process.exit(1);
 }
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
-  console.log('Mongo URI:', process.env.MONGO_URI); // Debugging
 
 // Middleware
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.set('layout', 'layouts/layout'); // Ensure you have views/layouts/layout.ejs
+app.set('layout', 'layouts/layout'); // Ensure views/layouts/layout.ejs exists
 app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
