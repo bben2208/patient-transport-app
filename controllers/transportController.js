@@ -27,6 +27,8 @@ exports.createTransport = async (req, res) => {
 
     if (isNaN(validPickupMileage) || isNaN(validDropoffMileage)) {
       return res.status(400).send('Pickup and Dropoff Mileage must be valid numbers');
+      console.log('Request Body:', req.body);
+
     }
 
     // Calculate Total Mileage

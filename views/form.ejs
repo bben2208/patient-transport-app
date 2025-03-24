@@ -1,9 +1,12 @@
 <div class="container">
   <h1><%= transport ? 'Edit Transport' : 'Create a Transport' %></h1>
+  
   <form action="<%= transport ? `/update/${transport._id}` : '/create' %>" method="POST">
+    <!-- Name Input -->
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" value="<%= transport ? transport.name : '' %>" required />
-
+   
+    <!-- Mobility Dropdown -->
     <label for="mobility">Mobility Type:</label>
     <select id="mobility" name="mobility" required>
       <option value="own chair" <%= transport && transport.mobility === 'own chair' ? 'selected' : '' %>>Own Chair</option>
@@ -12,12 +15,43 @@
       <option value="none" <%= transport && transport.mobility === 'none' ? 'selected' : '' %>>None</option>
     </select>
 
+    <!-- Toggles with Hidden Inputs -->
+    <% const renderToggle = (label, id, name, value) => { %>
+      <div class="toggle-container">
+        <span class="label"><%= label %>:</span>
+        <div class="toggle-btn" id="<%= id %>">
+          <div class="option yes <%= value === 'yes' ? 'active' : '' %>" onclick="toggle('<%= id %>', 'yes')">Y</div>
+          <div class="option no <%= value === 'no' ? 'active' : '' %>" onclick="toggle('<%= id %>', 'no')">N</div>
+        </div>
+        <input type="hidden" id="<%= id %>Input" name="<%= name %>" value="<%= value %>" />
+      </div>
+    <% } %>
+
+    <%= renderToggle('Consent Gained', 'consentToggle', 'consent', transport ? transport.consent : 'yes') %>
+    <%= renderToggle('DNAR', 'dnarToggle', 'dnar', transport ? transport.dnar : 'yes') %>
+    <%= renderToggle('Respect Form', 'respectToggle', 'respectForm', transport ? transport.respectForm : 'yes') %>
+    <%= renderToggle('Bariatric', 'bariatricToggle', 'bariatric', transport ? transport.bariatric : 'yes') %>
+
+    <!-- Pickup and Dropoff Inputs -->
+    <label for="pickup">Pick-up Address:</label>
+    <input type="text" id="pickup" name="pickup" value="<%= transport ? transport.pickup : '' %>" required />
+
     <label for="pickupMileage">Pick-up Mileage:</label>
-    <input type="number" id="pickupMileage" name="pickupMileage" value="<%= transport ? transport.pickupMileage : '' %>" required />
-    
+    <input type="number" id="pickupMileage" name="pickupMileage" value="<%= transport ? transport.pickupMileage : '' %>" required oninput="calculateMileage()" />
+
+    <label for="dropoff">Drop-off Address:</label>
+    <input type="text" id="dropoff" name="dropoff" value="<%= transport ? transport.dropoff : '' %>" required />
+
     <label for="dropoffMileage">Drop-off Mileage:</label>
-    <input type="number" id="dropoffMileage" name="dropoffMileage" value="<%= transport ? transport.dropoffMileage : '' %>" required />
+    <input type="number" id="dropoffMileage" name="dropoffMileage" value="<%= transport ? transport.dropoffMileage : '' %>" required oninput="calculateMileage()" />
     
+    <!-- Total Mileage Calculation with Hidden Input -->
+    <label for="totalMileage">Total Mileage:</label>
+    <input type="number" id="totalMileage" name="totalMileage" value="<%= transport ? transport.totalMileage : '' %>" readonly />
+    <input type="hidden" id="totalMileageHidden" name="totalMileage" value="<%= transport ? transport.totalMileage : '' %>" />
+
     <button type="submit"><%= transport ? 'Update Transport' : 'Create Transport' %></button>
   </form>
 </div>
+
+<script src="/js/script.js"></script>

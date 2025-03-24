@@ -1,29 +1,27 @@
-function toggle(toggleId, value) {
-    const toggle = document.getElementById(toggleId);
-    const input = document.getElementById(`${toggleId}Input`);
+// Toggle function for yes/no buttons
+function toggle(id, value) {
+    const yesBtn = document.querySelector(`#${id} .yes`);
+    const noBtn = document.querySelector(`#${id} .no`);
+    const input = document.getElementById(`${id}Input`);
   
-    // Remove active class from all options
-    toggle.querySelectorAll('.option').forEach(option => option.classList.remove('active'));
-  
-    // Add active class to the clicked option
-    const selectedOption = value === 'yes' 
-      ? toggle.querySelector('.yes') 
-      : toggle.querySelector('.no');
-      
-    selectedOption.classList.add('active');
-  
-    // Update hidden input value
-    input.value = value;
+    if (value === 'yes') {
+      yesBtn.classList.add('active');
+      noBtn.classList.remove('active');
+      input.value = 'yes';
+    } else {
+      noBtn.classList.add('active');
+      yesBtn.classList.remove('active');
+      input.value = 'no';
+    }
   }
+  
+  // Calculate Mileage
   function calculateMileage() {
     const pickupMileage = parseFloat(document.getElementById('pickupMileage').value) || 0;
     const dropoffMileage = parseFloat(document.getElementById('dropoffMileage').value) || 0;
+    const totalMileage = Math.abs(dropoffMileage - pickupMileage);
   
-    if (dropoffMileage >= pickupMileage) {
-      const totalMileage = dropoffMileage - pickupMileage;
-      document.getElementById('totalMileage').value = totalMileage;
-    } else {
-      document.getElementById('totalMileage').value = '';
-    }
+    document.getElementById('totalMileage').value = totalMileage;
+    document.getElementById('totalMileageHidden').value = totalMileage;
   }
   
