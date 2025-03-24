@@ -33,16 +33,16 @@ const transportSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  pickupMilage:{
-    type:Number,
+  pickupMileage: { // ✅ Fixed Typo (Previously pickupMilage)
+    type: Number,
     required: true
   },
-  dropoffMileage:{
-    type:Number,
+  dropoffMileage: {
+    type: Number,
     required: true
   },
-  totalMileage:{
-    type:Number,
+  totalMileage: {
+    type: Number,
     required: true
   },
   createdAt: {
