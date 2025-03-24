@@ -17,11 +17,6 @@ const transportSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-// Pre-save hook to calculate totalMileage
-transportSchema.pre('save', function (next) {
-  this.totalMileage = Math.abs(this.dropoffMileage - this.pickupMileage);
-  next();
-});
-
+// Create Model
 const Transport = mongoose.model('Transport', transportSchema);
 module.exports = Transport;
