@@ -21,11 +21,15 @@ exports.createTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
+    // Ensure Mileage is converted to Number
+    const pickupMileageNum = Number(pickupMileage);
+    const dropoffMileageNum = Number(dropoffMileage);
+
     // Calculate Total Mileage
-    const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
+    const totalMileage = Math.abs(dropoffMileageNum - pickupMileageNum);
 
     await Transport.create({
-      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage,
+      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage: pickupMileageNum, dropoffMileage: dropoffMileageNum, totalMileage
     });
 
     res.redirect('/');
@@ -54,11 +58,15 @@ exports.updateTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
+    // Ensure Mileage is converted to Number
+    const pickupMileageNum = Number(pickupMileage);
+    const dropoffMileageNum = Number(dropoffMileage);
+
     // Calculate Total Mileage
-    const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
+    const totalMileage = Math.abs(dropoffMileageNum - pickupMileageNum);
 
     await Transport.findByIdAndUpdate(req.params.id, {
-      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage,
+      name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage: pickupMileageNum, dropoffMileage: dropoffMileageNum, totalMileage
     });
 
     res.redirect('/');
@@ -78,4 +86,3 @@ exports.deleteTransport = async (req, res) => {
     res.status(500).send('Error deleting transport');
   }
 };
-
