@@ -67,3 +67,15 @@ exports.updateTransport = async (req, res) => {
     res.status(500).send('Error updating transport');
   }
 };
+
+// Delete transport
+exports.deleteTransport = async (req, res) => {
+  try {
+    await Transport.findByIdAndDelete(req.params.id);
+    res.redirect('/');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting transport');
+  }
+};
+
