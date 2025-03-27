@@ -5,14 +5,13 @@ const transportSchema = new mongoose.Schema({
   mobility: { type: String, required: true },
   consent: { type: String, required: true },
   dnar: { type: String, required: true },
-  respectForm: { type: String, required: true },
+  respect_form: { type: String, required: true },
   bariatric: { type: String, required: true },
   pickup: { type: String, required: true },
   dropoff: { type: String, required: true },
-  pickupMileage: { type: Number, required: true }, // ✅ Fixed
-  dropoffMileage: { type: Number, required: true }, // ✅ Fixed
-  totalMileage: { type: Number, required: true }
+  pickup_mileage: { type: Number, required: true },
+  dropoff_mileage: { type: Number, required: true },
+  total_mileage: { type: Number, required: true }
 });
 
-const Transport = mongoose.model('Transport', transportSchema);
-module.exports = Transport;
+module.exports = mongoose.model('Transport', transportSchema);
