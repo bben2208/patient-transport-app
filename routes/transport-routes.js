@@ -2,13 +2,6 @@ const express = require('express');
 const router = express.Router();
 const transportController = require('../controllers/transport-controller');
 
-// Ensure functions are imported correctly
-if (!transportController.getAllTransports) {
-  console.error('❗ getAllTransports function not found in transportController');
-  process.exit(1);
-}
-
-// Define routes
 router.get('/', transportController.getAllTransports);
 router.get('/create', transportController.getCreateForm);
 router.post('/create', transportController.createTransport);
