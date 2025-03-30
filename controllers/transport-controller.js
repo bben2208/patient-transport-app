@@ -1,6 +1,3 @@
-const Transport = require('../models/transport');
-
-// Get all transports
 exports.getAllTransports = async (req, res) => {
   try {
     const transports = await Transport.find();
@@ -11,39 +8,23 @@ exports.getAllTransports = async (req, res) => {
   }
 };
 
-// Render create form
 exports.getCreateForm = (req, res) => {
   res.render('form', { transport: null });
 };
 
-// Create transport
 exports.createTransport = async (req, res) => {
   try {
-    const { name, mobility, consent, dnar, respect_form, bariatric, pickup, dropoff, pickup_mileage, dropoff_mileage } = req.body;
+    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
 
-    const validPickupMileage = Number(pickup_mileage);
-    const validDropoffMileage = Number(dropoff_mileage);
-
+    const validPickupMileage = Number(pickupMileage);
+    const validDropoffMileage = Number(dropoffMileage);
     if (isNaN(validPickupMileage) || isNaN(validDropoffMileage)) {
-      return res.status(400).send('Pickup and Dropoff Mileage must be valid numbers');
+      return res.status(400).send('Invalid mileage values');
     }
 
-    const total_mileage = Math.abs(validDropoffMileage - validPickupMileage);
+    const totalMileage = Math.abs(validDropoffMileage - validPickupMileage);
 
-    const transport = new Transport({
-      name,
-      mobility,
-      consent,
-      dnar,
-      respect_form,
-      bariatric,
-      pickup,
-      dropoff,
-      pickup_mileage: validPickupMileage,
-      dropoff_mileage: validDropoffMileage,
-      total_mileage,
-    });
-
+    const transport = new Transport({ name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage, totalMileage });
     await transport.save();
     res.redirect('/');
   } catch (err) {
@@ -51,18 +32,4 @@ exports.createTransport = async (req, res) => {
     res.status(500).send('Error creating transport');
   }
 };
-
-// Update and Delete handlers follow the same naming updates.
-
-
-// routes/transport-routes.js
-const express = require('express');
-const router = express.Router();
-const transportController = require('../controllers/transport-controller');
-
-router.get('/', transportController.getAllTransports);
-router.get('/create', transportController.getCreateForm);
-router.post('/create', transportController.createTransport);
-
-module.exports = router;
 

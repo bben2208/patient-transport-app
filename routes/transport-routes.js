@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const transportController = require('../controllers/transportController');
+const transportController = require('../controllers/transport-controller');
 
 // Ensure functions are imported correctly
 if (!transportController.getAllTransports) {
-  console.error("getAllTransports function is not defined in transportController.");
+  console.error('❗ getAllTransports function not found in transportController');
   process.exit(1);
 }
 
