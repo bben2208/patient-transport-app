@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const transportController = require('../controllers/transport-controller');
+const transportController = require('../controllers/transportController');
 
-// Ensure all functions are correctly defined
+// Ensure functions are imported correctly
+if (!transportController.getAllTransports) {
+  console.error("getAllTransports function is not defined in transportController.");
+  process.exit(1);
+}
+
+// Define routes
 router.get('/', transportController.getAllTransports);
 router.get('/create', transportController.getCreateForm);
 router.post('/create', transportController.createTransport);
