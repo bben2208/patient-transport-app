@@ -1,6 +1,5 @@
 const Transport = require('../models/transport');
 
-// Get all transports
 exports.getAllTransports = async (req, res) => {
   try {
     const transports = await Transport.find();
@@ -11,38 +10,20 @@ exports.getAllTransports = async (req, res) => {
   }
 };
 
-// Render create form
 exports.getCreateForm = (req, res) => {
   res.render('form', { transport: null });
 };
 
-// Create transport
 exports.createTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
-
     const validPickupMileage = Number(pickupMileage);
     const validDropoffMileage = Number(dropoffMileage);
     if (isNaN(validPickupMileage) || isNaN(validDropoffMileage)) {
       return res.status(400).send('Invalid mileage values');
     }
-
     const totalMileage = Math.abs(validDropoffMileage - validPickupMileage);
-
-    const transport = new Transport({
-      name,
-      mobility,
-      consent,
-      dnar,
-      respectForm,
-      bariatric,
-      pickup,
-      dropoff,
-      pickupMileage: validPickupMileage,
-      dropoffMileage: validDropoffMileage,
-      totalMileage
-    });
-
+    const transport = new Transport({ name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage: validPickupMileage, dropoffMileage: validDropoffMileage, totalMileage });
     await transport.save();
     res.redirect('/');
   } catch (err) {
@@ -51,7 +32,6 @@ exports.createTransport = async (req, res) => {
   }
 };
 
-// Render edit form
 exports.getEditForm = async (req, res) => {
   try {
     const transport = await Transport.findById(req.params.id);
@@ -63,12 +43,10 @@ exports.getEditForm = async (req, res) => {
   }
 };
 
-// Update transport
 exports.updateTransport = async (req, res) => {
   try {
     const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
     const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
-
     await Transport.findByIdAndUpdate(req.params.id, {
       name,
       mobility,
@@ -82,7 +60,6 @@ exports.updateTransport = async (req, res) => {
       dropoffMileage: Number(dropoffMileage),
       totalMileage
     });
-
     res.redirect('/');
   } catch (error) {
     console.error(error);
@@ -90,7 +67,6 @@ exports.updateTransport = async (req, res) => {
   }
 };
 
-// Delete transport
 exports.deleteTransport = async (req, res) => {
   try {
     await Transport.findByIdAndDelete(req.params.id);

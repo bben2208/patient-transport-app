@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const transportController = require('../controllers/transport-controller');
 
+if (!transportController.getAllTransports) {
+  console.error('❗ getAllTransports function not found');
+  process.exit(1);
+}
+
 router.get('/', transportController.getAllTransports);
 router.get('/create', transportController.getCreateForm);
 router.post('/create', transportController.createTransport);
