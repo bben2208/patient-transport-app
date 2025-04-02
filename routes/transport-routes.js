@@ -6,6 +6,7 @@ if (!transportController.getAllTransports) {
   console.error('❗ getAllTransports function not found');
   process.exit(1);
 }
+console.log('transportController:', transportController);
 
 router.get('/', transportController.getAllTransports);
 router.get('/create', transportController.getCreateForm);
