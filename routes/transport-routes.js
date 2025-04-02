@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { ensureAuthenticated } = require("../middleware/auth");
 const transportController = require('../controllers/transport-controller');
 
 if (!transportController.getAllTransports) {
@@ -8,11 +9,12 @@ if (!transportController.getAllTransports) {
 }
 console.log('transportController:', transportController);
 
-router.get('/', transportController.getAllTransports);
-router.get('/create', transportController.getCreateForm);
-router.post('/create', transportController.createTransport);
-router.get('/edit/:id', transportController.getEditForm);
-router.post('/update/:id', transportController.updateTransport);
-router.post('/delete/:id', transportController.deleteTransport);
+// Protect all transport-related routes with the ensureAuthenticated middleware
+router.get('/', ensureAuthenticated, transportController.getAllTransports);
+router.get('/create', ensureAuthenticated, transportController.getCreateForm);
+router.post('/create', ensureAuthenticated, transportController.createTransport);
+router.get('/edit/:id', ensureAuthenticated, transportController.getEditForm);
+router.post('/update/:id', ensureAuthenticated, transportController.updateTransport);
+router.post('/delete/:id', ensureAuthenticated, transportController.deleteTransport);
 
 module.exports = router;

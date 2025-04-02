@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const User = require("../models/user");
+const { ensureAuthenticated } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -12,6 +13,11 @@ router.get("/login", (req, res) => {
 // GET Registration Page
 router.get("/register", (req, res) => {
   res.render("register");
+});
+
+// GET Dashboard (protected route)
+router.get("/dashboard", ensureAuthenticated, (req, res) => {
+  res.render("dashboard", { user: req.user });
 });
 
 // Register Route
