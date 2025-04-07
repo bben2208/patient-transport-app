@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const User = require("../models/user");
+const User = require("../model/user");
 const Transport = require("../model/transport"); // Import the Transport model
 const { ensureAuthenticated } = require("../middleware/auth");
 const router = express.Router();
