@@ -1,4 +1,4 @@
-const Transport = require("../model/Transport");
+const Transport = require("../model/transport");
 
 // Get all transports created by the logged-in user
 exports.getAllTransports = async (req, res) => {
