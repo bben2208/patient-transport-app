@@ -5,7 +5,7 @@ const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
-const flash = require("connect-flash");
+const flash = require('connect-flash');
 
 // Route Imports
 const transportRoutes = require('./routes/transport-routes');
@@ -20,7 +20,7 @@ const app = express();
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('✅ Connected to MongoDB'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Middleware
 app.set('view engine', 'ejs');
@@ -43,7 +43,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/', transportRoutes);
-app.use('/', authRoutes);  // Auth routes handle login, register, etc.
+app.use('/', authRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

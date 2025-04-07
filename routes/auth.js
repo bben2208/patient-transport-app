@@ -1,8 +1,8 @@
 const express = require("express");
 const passport = require("passport");
 const User = require("../models/user");
+const Transport = require("../models/Transport"); // Import the Transport model
 const { ensureAuthenticated } = require("../middleware/auth");
-
 const router = express.Router();
 
 // GET Login Page
@@ -16,25 +16,28 @@ router.get("/register", (req, res) => {
 });
 
 // GET Dashboard (protected route)
-router.get("/dashboard", ensureAuthenticated, (req, res) => {
-  res.render("dashboard", { user: req.user });
+// This route fetches transports created by the logged-in user
+router.get("/dashboard", ensureAuthenticated, async (req, res) => {
+  try {
+    const transports = await Transport.find({ user: req.user._id });
+    res.render("dashboard", { user: req.user, transports });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading dashboard");
+  }
 });
 
 // Register Route
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
-
     // Check if user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).send("User already exists");
     }
-
-    // Create and save the new user (password hashing is handled in the model pre-save hook)
     const user = new User({ username, password });
     await user.save();
-
     res.redirect("/login");
   } catch (error) {
     res.status(500).send("Error creating user");

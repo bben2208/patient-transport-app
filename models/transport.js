@@ -1,17 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const transportSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  mobility: { type: String, required: true },
-  consent: { type: String, required: true },
-  dnar: { type: String, required: true },
-  respectForm: { type: String, required: true },
-  bariatric: { type: String, required: true },
-  pickup: { type: String, required: true },
-  dropoff: { type: String, required: true },
-  pickupMileage: { type: Number, required: true },
-  dropoffMileage: { type: Number, required: true },
-  totalMileage: { type: Number, required: true }
+  name: String,
+  mobility: String,
+  consent: String,
+  dnar: String,
+  respectForm: String,
+  bariatric: String,
+  pickup: String,
+  pickupMileage: Number,
+  dropoff: String,
+  dropoffMileage: Number,
+  totalMileage: Number,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Associates transport with a user
 });
 
-module.exports = mongoose.model('Transport', transportSchema);
+module.exports = mongoose.model("Transport", transportSchema);

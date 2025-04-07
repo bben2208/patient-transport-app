@@ -3,12 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 1em 0; padding: 0.5em; border: 1px solid #ccc; }
+    .actions { margin-top: 0.5em; }
+    .actions form { display: inline; }
+  </style>
 </head>
 <body>
-  <h1>Welcome to your Dashboard</h1>
-  <p>Hello, <%= user.username %>!</p>
+  <h1>Welcome, <%= user.username %>!</h1>
   <a href="/logout">Logout</a>
-  <h1>Welcome to the Patient Transport App</h1>
+  
+  <h2>Your Transports</h2>
   <button onclick="window.location.href='/create'">Create a New Transport</button>
+  
+  <% if (!transports || transports.length === 0) { %>
+    <p>No transports found. Create one now!</p>
+  <% } else { %>
+    <ul>
+      <% transports.forEach(function(transport) { %>
+        <li>
+          <strong><%= transport.name %></strong><br>
+          Mobility: <%= transport.mobility %><br>
+          From: <%= transport.pickup %><br>
+          To: <%= transport.dropoff %><br>
+          Total Mileage: <%= transport.totalMileage %> miles
+          <div class="actions">
+            <a href="/edit/<%= transport._id %>">Edit</a>
+            <form action="/delete/<%= transport._id %>" method="POST" style="display:inline;">
+              <button type="submit">Delete</button>
+            </form>
+          </div>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
 </body>
 </html>
