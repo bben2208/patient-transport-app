@@ -1,74 +1,43 @@
-/* public/css/style.css */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 20px;
-  }
-  h1 {
-    color: #007bff;
-  }
-  
-  .container form {
-    display: flex;
-    flex-direction: column; /* This makes it a column layout */
-  }
-  
-  h1 {
-    color: #007bff;
-  }
-  
-  button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+  font-family: Arial, sans-serif;
+}
 
-  .toggle-container {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  
-  .label {
-    margin-right: 10px;
-    font-size: 16px;
-  }
-  
-  .toggle-btn {
-    display: flex;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 2px solid #007bff;
-    width: 80px;
-  }
-  
-  .option {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #007bff;
-    background-color: white;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .option.active {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .option:not(.active):hover {
-    background-color: rgba(0, 123, 255, 0.1);
-  }
-  
-  
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 1em 0;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+}
+
+.actions {
+  margin-top: 0.5em;
+}
+
+.actions form {
+  display: inline;
+}
+
+/* Styled edit button (orange) */
+.edit-button {
+  background-color: orange;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+/* Styled delete button (red) */
+.delete-button {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  text-decoration: none;
+  border-radius: 3px;
+}

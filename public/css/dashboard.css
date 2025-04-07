@@ -1,0 +1,129 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #2980b9;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  #logout {
+    float: right;
+    margin-top: -40px;
+    font-size: 14px;
+    color: #e74c3c;
+  }
+  
+  #logout:hover {
+    text-decoration: underline;
+  }
+  
+  #createBtn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #createBtn:hover {
+    background-color: #219150;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  li {
+    background-color: #fff;
+    margin: 1em 0;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 5px solid #3498db;
+  }
+  
+  .actions {
+    margin-top: 1em;
+  }
+  
+  .actions form {
+    display: inline;
+  }
+  
+  /* Orange edit button */
+  .edit-button {
+    background-color: #f39c12;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover {
+    background-color: #d68910;
+  }
+  
+  /* Red delete button */
+  .delete-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #c0392b;
+  }
+  
+  #logout {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    transition: background-color 0.3s ease;
+  }
+  
+  #logout:hover {
+    background-color: #c0392b;
+  }
+
+  .container {
+    position: relative;
+    padding: 0 20px;
+  }
+  
+  

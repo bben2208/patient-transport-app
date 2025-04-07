@@ -6,6 +6,8 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+const app = express();
+const path = require('path');
 
 // Route Imports
 const transportRoutes = require('./routes/transport-routes');
@@ -15,7 +17,6 @@ const authRoutes = require('./routes/auth');
 const passportConfig = require('./config/passport');
 passportConfig(passport);
 
-const app = express();
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -30,6 +31,8 @@ app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Session, Flash & Passport Middleware
 app.use(session({

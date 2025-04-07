@@ -3,26 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    ul { list-style: none; padding: 0; }
-    li { margin: 1em 0; padding: 0.5em; border: 1px solid #ccc; }
-    .actions { margin-top: 0.5em; }
-    .actions form { display: inline; }
-  </style>
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
+    <div class="container">
   <h1>Welcome, <%= user.username %>!</h1>
-  <a href="/logout">Logout</a>
-  
+  <a href="/logout" id="logout">Logout</a>
+
   <h2>Your Transports</h2>
-  <button onclick="window.location.href='/create'">Create a New Transport</button>
-  
+  <button id="createBtn">Create a New Transport</button>
+
   <% if (!transports || transports.length === 0) { %>
     <p>No transports found. Create one now!</p>
   <% } else { %>
     <ul>
-      <% transports.forEach(function(transport) { %>
+      <% transports.forEach(transport => { %>
         <li>
           <strong><%= transport.name %></strong><br>
           Mobility: <%= transport.mobility %><br>
@@ -30,14 +25,18 @@
           To: <%= transport.dropoff %><br>
           Total Mileage: <%= transport.totalMileage %> miles
           <div class="actions">
-            <a href="/edit/<%= transport._id %>">Edit</a>
-            <form action="/delete/<%= transport._id %>" method="POST" style="display:inline;">
-              <button type="submit">Delete</button>
+            <a href="/edit/<%= transport._id %>" class="edit-button">Edit</a>
+            <form class="delete-form" action="/delete/<%= transport._id %>" method="POST">
+              <button type="submit" class="delete-button">Delete</button>
             </form>
           </div>
         </li>
       <% }); %>
     </ul>
   <% } %>
+
+  <script src="/js/dashboard.js"></script>
+</div>
+
 </body>
 </html>
