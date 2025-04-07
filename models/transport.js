@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Transport = require('../model/transport');
 
 const transportSchema = new mongoose.Schema({
   name: String,
