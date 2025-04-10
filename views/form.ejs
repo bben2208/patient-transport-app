@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title><%= transport ? 'Edit Transport' : 'Create a Transport' %></title>
-  <!-- Link to the new form CSS file -->
   <link rel="stylesheet" href="/css/form.css">
 </head>
 <body>
@@ -12,7 +11,6 @@
     <h2><%= transport ? 'Edit Transport' : 'Create a Transport' %></h2>
     
     <form action="<%= transport ? `/update/${transport._id}` : '/create' %>" method="POST">
-      
       <!-- Name Input -->
       <div class="form-group">
         <label for="name">Name:</label>
@@ -43,14 +41,12 @@
           <div class="toggle-btn" id="<%= id %>">
             <div 
               class="option yes <%= value === 'yes' ? 'active' : '' %>" 
-              onclick="toggle('<%= id %>', 'yes')"
-            >
+              onclick="toggle('<%= id %>', 'yes')">
               Y
             </div>
             <div 
               class="option no <%= value === 'no' ? 'active' : '' %>" 
-              onclick="toggle('<%= id %>', 'no')"
-            >
+              onclick="toggle('<%= id %>', 'no')">
               N
             </div>
           </div>
@@ -114,6 +110,42 @@
         />
       </div>
       
+      <!-- New: Pickup and Dropoff Time Inputs -->
+      <div class="form-group">
+        <label for="pickupTime">Pick-up Time:</label>
+        <input 
+          type="datetime-local" 
+          id="pickupTime" 
+          name="pickupTime" 
+          value="<%= transport && transport.pickupTime ? transport.pickupTime.toISOString().slice(0,16) : '' %>" 
+          required 
+          onchange="calculateDuration()"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="dropoffTime">Drop-off Time:</label>
+        <input 
+          type="datetime-local" 
+          id="dropoffTime" 
+          name="dropoffTime" 
+          value="<%= transport && transport.dropoffTime ? transport.dropoffTime.toISOString().slice(0,16) : '' %>" 
+          required 
+          onchange="calculateDuration()"
+        >
+      </div>
+
+      <!-- New: Duration Input (Read-only) -->
+      <div class="form-group">
+        <label for="duration">Duration (minutes):</label>
+        <input 
+          type="number" 
+          id="duration" 
+          name="duration" 
+          value="<%= transport ? transport.duration : '' %>" 
+          readonly>
+      </div>
+
       <!-- Total Mileage (Read-only) and Hidden Input -->
       <div class="form-group">
         <label for="totalMileage">Total Mileage:</label>
@@ -138,7 +170,6 @@
     </form>
   </div>
 
-  <!-- Link your existing script or the toggling logic -->
   <script src="/js/script.js"></script>
 </body>
 </html>

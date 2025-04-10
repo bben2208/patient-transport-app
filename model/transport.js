@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Transport = require('../model/transport');
 
 const transportSchema = new mongoose.Schema({
   name: String,
@@ -13,6 +12,10 @@ const transportSchema = new mongoose.Schema({
   dropoff: String,
   dropoffMileage: Number,
   totalMileage: Number,
+  // New time fields:
+  pickupTime: Date,
+  dropoffTime: Date,
+  duration: Number, // duration in minutes (calculated on creation/update)
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Associates transport with a user
 });
 

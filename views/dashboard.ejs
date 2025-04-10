@@ -6,37 +6,39 @@
   <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-  <h1>Welcome, <%= user.username %>!</h1>
-  <a href="/logout" id="logout">Logout</a>
+  <div class="container">
+    <h1>Welcome, <%= user.username %>!</h1>
+    <a href="/logout" id="logout">Logout</a>
 
-  <h2>Your Transports</h2>
-  <button id="createBtn">Create a New Transport</button>
+    <h2>Your Transports</h2>
+    <button id="createBtn">Create a New Transport</button>
 
-  <% if (!transports || transports.length === 0) { %>
-    <p>No transports found. Create one now!</p>
-  <% } else { %>
-    <ul>
-      <% transports.forEach(transport => { %>
-        <li>
-          <strong><%= transport.name %></strong><br>
-          Mobility: <%= transport.mobility %><br>
-          From: <%= transport.pickup %><br>
-          To: <%= transport.dropoff %><br>
-          Total Mileage: <%= transport.totalMileage %> miles
-          <div class="actions">
-            <a href="/edit/<%= transport._id %>" class="edit-button">Edit</a>
-            <form class="delete-form" action="/delete/<%= transport._id %>" method="POST">
-              <button type="submit" class="delete-button">Delete</button>
-            </form>
-          </div>
-        </li>
-      <% }); %>
-    </ul>
-  <% } %>
+    <% if (!transports || transports.length === 0) { %>
+      <p>No transports found. Create one now!</p>
+    <% } else { %>
+      <ul>
+        <% transports.forEach(transport => { %>
+          <li>
+            <strong><%= transport.name %></strong><br>
+            Mobility: <%= transport.mobility %><br>
+            From: <%= transport.pickup %><br>
+            To: <%= transport.dropoff %><br>
+            Pick-up Time: <%= transport.pickupTime ? new Date(transport.pickupTime).toLocaleString() : '' %><br>
+            Drop-off Time: <%= transport.dropoffTime ? new Date(transport.dropoffTime).toLocaleString() : '' %><br>
+            Duration: <%= transport.duration %> minutes<br>
+            Total Mileage: <%= transport.totalMileage %> miles
+            <div class="actions">
+              <a href="/edit/<%= transport._id %>" class="edit-button">Edit</a>
+              <form class="delete-form" action="/delete/<%= transport._id %>" method="POST">
+                <button type="submit" class="delete-button">Delete</button>
+              </form>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
 
-  <script src="/js/dashboard.js"></script>
-</div>
-
+    <script src="/js/dashboard.js"></script>
+  </div>
 </body>
 </html>

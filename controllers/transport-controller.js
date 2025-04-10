@@ -17,19 +17,30 @@ exports.getCreateForm = (req, res) => {
 
 exports.createTransport = async (req, res) => {
   try {
-    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
+    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff,
+            pickupMileage, dropoffMileage, pickupTime, dropoffTime } = req.body;
+            
     const validPickupMileage = Number(pickupMileage);
     const validDropoffMileage = Number(dropoffMileage);
     if (isNaN(validPickupMileage) || isNaN(validDropoffMileage)) {
       return res.status(400).send("Invalid mileage values");
     }
     const totalMileage = Math.abs(validDropoffMileage - validPickupMileage);
+    
+    // Parse pickup/dropoff times
+    const pickTime = new Date(pickupTime);
+    const dropTime = new Date(dropoffTime);
+    const duration = Math.round((dropTime - pickTime) / (1000 * 60)); // duration in minutes
+    
     // Create new transport and associate with logged-in user
     const transport = new Transport({ 
       name, mobility, consent, dnar, respectForm, bariatric, 
       pickup, dropoff, 
       pickupMileage: validPickupMileage, dropoffMileage: validDropoffMileage, 
-      totalMileage, 
+      totalMileage,
+      pickupTime: pickTime,
+      dropoffTime: dropTime,
+      duration,
       user: req.user._id 
     });
     await transport.save();
@@ -53,11 +64,20 @@ exports.getEditForm = async (req, res) => {
 
 exports.updateTransport = async (req, res) => {
   try {
-    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff, pickupMileage, dropoffMileage } = req.body;
+    const { name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff,
+            pickupMileage, dropoffMileage, pickupTime, dropoffTime } = req.body;
+            
     const totalMileage = Math.abs(Number(dropoffMileage) - Number(pickupMileage));
+    
+    // Parse pickup/dropoff times and calculate duration
+    const pickTime = new Date(pickupTime);
+    const dropTime = new Date(dropoffTime);
+    const duration = Math.round((dropTime - pickTime) / (1000 * 60));
+    
     await Transport.findByIdAndUpdate(req.params.id, {
       name, mobility, consent, dnar, respectForm, bariatric, pickup, dropoff,
-      pickupMileage: Number(pickupMileage), dropoffMileage: Number(dropoffMileage), totalMileage
+      pickupMileage: Number(pickupMileage), dropoffMileage: Number(dropoffMileage), totalMileage,
+      pickupTime: pickTime, dropoffTime: dropTime, duration
     });
     res.redirect("/dashboard");
   } catch (error) {
