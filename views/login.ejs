@@ -7,9 +7,12 @@
 </head>
 <body>
   <h1>Login Page</h1>
-  <% if (messages.error && messages.error.length > 0) { %>
-    <div class="error-message"><%= messages.error[0] %></div>
+  <% if (messages && messages.length > 0) { %>
+    <% messages.forEach(function(message) { %>
+      <div class="error-message"><%= message %></div>
+    <% }) %>
   <% } %>
+  
   <form action="/login" method="POST">
     <label>Username:</label>
     <input type="text" name="username" required>
